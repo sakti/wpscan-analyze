@@ -221,11 +221,13 @@ impl<'a> DefaultAnalyzer<'a> {
     }
 
     fn analyze_plugins(&self) -> HashMap<&'a str, AnalyzerResult<'a>> {
-        self.wpscan
-            .plugins
-            .iter()
-            .map(|(k, v)| (k.as_str(), DefaultAnalyzer::analyze_plugin(v)))
-            .collect()
+        match &self.wpscan.plugins {
+            None => HashMap::new(),
+            Some(plugins) => plugins
+                .iter()
+                .map(|(k, v)| (k.as_str(), DefaultAnalyzer::analyze_plugin(v)))
+                .collect(),
+        }
     }
 
     fn analyze_plugin(plugin: &'a Plugin) -> AnalyzerResult<'a> {

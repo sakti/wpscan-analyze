@@ -20,7 +20,7 @@ pub struct WpScan {
     #[serde(rename = "version")]
     pub word_press: Option<Version>,
     pub main_theme: Option<MainTheme>,
-    pub plugins: HashMap<String, Plugin>,
+    pub plugins: Option<HashMap<String, Plugin>>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -87,7 +87,7 @@ impl SanityCheck for WpScan {
         if self.main_theme.is_none() {
             warn!("No main theme recognized; this may be okay, but corresponding analysis results are unreliable.");
         }
-        if self.plugins.is_empty() {
+        if self.plugins.is_none() {
             warn!("No plugins detected; this is okay, if you don't use plugins.");
         }
 
